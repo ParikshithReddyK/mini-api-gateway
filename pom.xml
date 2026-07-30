@@ -25,10 +25,10 @@
 
     <!--
         Dependencies are added one Maven starter per implementation step, not all upfront.
-        Step 1 only needs enough to prove the app boots and reports health. Security,
-        validation, and Redis are added in the steps that actually introduce them
-        (JWT auth, API key auth, and rate limiting respectively) so every commit's
-        dependency diff maps to a real feature.
+        Step 2 adds everything needed to own the schema: JPA (entity mapping), the Postgres
+        driver, and Flyway (versioned migrations). Security, validation, and Redis are still
+        deferred to the steps that actually introduce them, so every commit's dependency
+        diff maps to a real feature.
     -->
     <dependencies>
 
@@ -42,6 +42,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Persistence -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Migrations. Flyway 10+ splits DB-specific dialect support out of flyway-core,
+             so PostgreSQL needs its own module declared explicitly. -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
         <!-- Lombok -->
@@ -66,6 +88,25 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers: migrations are verified against a real PostgreSQL instance,
+             not H2. H2 silently accepts syntax Postgres wouldn't (or vice versa), which
+             defeats the point of testing a migration at all. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
 

@@ -1,0 +1,7 @@
+# Test profile. Datasource connection details are injected dynamically by Testcontainers
+# via @DynamicPropertySource in each integration test - nothing to configure here.
+logging:
+  level:
+    root: WARN
+    org.testcontainers: INFO
+    com.parikshith.gateway: DEBUG

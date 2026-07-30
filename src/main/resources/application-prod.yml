@@ -1,5 +1,15 @@
 # Production profile. Quieter logging, and health details are never exposed
 # to unauthenticated callers (avoids leaking DB/Redis connectivity info to the internet).
+#
+# Note DB_URL/DB_USERNAME/DB_PASSWORD have NO fallback default here, unlike the local
+# profile. In prod, a missing credential should fail startup loudly, not silently fall
+# back to a localhost/postgres default that doesn't exist in the deployment environment.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
 logging:
   level:
     root: WARN

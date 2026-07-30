@@ -1,5 +1,16 @@
 # Local development profile. Verbose logging, no secrets, safe defaults for a laptop.
+#
+# Requires a Postgres instance reachable at localhost:5432 (database mini_api_gateway,
+# user/password postgres, or override via DB_URL/DB_USERNAME/DB_PASSWORD env vars).
+# Docker Compose support for zero-setup local infra lands in a later step.
 logging:
   level:
     root: INFO
     com.parikshith.gateway: DEBUG
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
