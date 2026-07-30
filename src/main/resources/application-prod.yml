@@ -1,0 +1,11 @@
+# Production profile. Quieter logging, and health details are never exposed
+# to unauthenticated callers (avoids leaking DB/Redis connectivity info to the internet).
+logging:
+  level:
+    root: WARN
+    com.parikshith.gateway: INFO
+
+management:
+  endpoint:
+    health:
+      show-details: never

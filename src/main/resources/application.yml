@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: mini-api-gateway
+  profiles:
+    active: local
+
+server:
+  port: 8080
+
+# Actuator is exposed narrowly on purpose: health and info only. Every additional endpoint
+# (env, beans, mappings, etc.) is a potential information disclosure surface and gets
+# enabled explicitly, per-profile, only when there's a concrete need for it.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized

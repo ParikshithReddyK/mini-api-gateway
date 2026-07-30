@@ -1,0 +1,5 @@
+# Local development profile. Verbose logging, no secrets, safe defaults for a laptop.
+logging:
+  level:
+    root: INFO
+    com.parikshith.gateway: DEBUG
